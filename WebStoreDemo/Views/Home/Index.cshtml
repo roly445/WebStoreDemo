@@ -1,0 +1,42 @@
+﻿@model HomeViewModel
+@{
+    ViewData["Title"] = "Home Page";
+}
+<div class="columns is-multiline">
+    @foreach (var item in Model.Items)
+    {
+        <form class="column is-one-quarter" asp-action="AddToBasket">
+            <div class="card">
+                <header class="card-header">
+                    <p class="card-header-title">
+                        @item.Name
+                    </p>
+                    <div class="card-header-icon">
+                        <button type="submit" name="id" value="@item.Id" class="button">
+                            <span class="icon is-small">
+                                <i class="fas fa-cart-plus"></i>
+                            </span>
+                        </button>
+                    </div>
+                </header>
+                <div class="card-image">
+                    <figure class="image is-4by3">
+                        <img src="@($"{item.Image}?r={item.Id}")" alt="@item.Name">
+                    </figure>
+                </div>
+                <div class="card-content">
+                    <div class="content">
+                        @item.Description
+                        <br />
+                        @item.Price
+                    </div>
+                </div>
+                <footer class="card-footer">
+                        @*<a href="#" class="card-footer-item">Save</a>
+                        <a href="#" class="card-footer-item">Edit</a>*@
+                        <a href="#" class="card-footer-item">Buy Now</a>
+                </footer>
+            </div>
+        </form>
+    }
+</div>
