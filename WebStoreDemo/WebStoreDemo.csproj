@@ -5,10 +5,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="Infrastucture\data.json" />
+    <Compile Remove="Infrastucture\Basket.cs" />
+    <Compile Remove="Infrastucture\BasketItem.cs" />
+    <Compile Remove="Infrastucture\IBasket.cs" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="GiantBomb.Api" Version="2.4.0" />
+    <PackageReference Include="LiteDB" Version="4.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.5" />
     <PackageReference Include="Microsoft.AspNetCore.SpaServices" Version="2.0.2" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.2" />
@@ -19,10 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Infrastucture\data.json" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <Folder Include="Resources\Styles\pages\" />
     <Folder Include="wwwroot\" />
   </ItemGroup>
 

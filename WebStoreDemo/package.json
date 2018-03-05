@@ -11,6 +11,15 @@
   "dependencies": {
     "ts-loader": "^4.0.0",
     "typescript": "^2.7.2",
-    "webpack": "^4.0.1"
+    "webpack": "3.11.0"
+  },
+  "devDependencies": {
+    "css-loader": "^0.28.10",
+    "extract-text-webpack-plugin": "^3.0.2",
+    "file-loader": "^1.1.11",
+    "node-sass": "^4.7.2",
+    "normalise.scss": "^1.0.1",
+    "sass-bootstrap-grid-only": "^1.0.3",
+    "sass-loader": "^6.0.7"
   }
 }

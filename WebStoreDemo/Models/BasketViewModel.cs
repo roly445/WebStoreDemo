@@ -5,11 +5,11 @@ namespace WebStoreDemo.Models
 {
     public class BasketViewModel
     {
-        public BasketViewModel(IReadOnlyList<BasketItem> basketItems)
-        {
-            this.BasketItems = basketItems;
-        }
+        //public BasketViewModel(IReadOnlyList<BasketItem> basketItems)
+        //{
+        //    this.BasketItems = basketItems;
+        //}
 
-        public IReadOnlyList<BasketItem> BasketItems { get; }
+        //public IReadOnlyList<BasketItem> BasketItems { get; }
     }
 }

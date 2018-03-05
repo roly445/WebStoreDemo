@@ -1,42 +1,108 @@
-﻿@model HomeViewModel
+﻿@using WebStoreDemo.Infrastucture.Extensions
+@model HomeViewModel
 @{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Home";
 }
-<div class="columns is-multiline">
-    @foreach (var item in Model.Items)
-    {
-        <form class="column is-one-quarter" asp-action="AddToBasket">
-            <div class="card">
-                <header class="card-header">
-                    <p class="card-header-title">
-                        @item.Name
-                    </p>
-                    <div class="card-header-icon">
-                        <button type="submit" name="id" value="@item.Id" class="button">
-                            <span class="icon is-small">
-                                <i class="fas fa-cart-plus"></i>
-                            </span>
-                        </button>
+<div class="home-slider">
+    <ul class="slides">
+        @foreach (var game in Model.HeadlineGames)
+        {
+            <li data-bg-image="dummy/slide-1.jpg">
+                <div class="container">
+                    <div class="slide-content">
+                        <h2 class="slide-title">@game.Name</h2>
+                        <small class="slide-subtitle">£@game.Name.GenerateDecimal()</small>
+
+                        <p>@game.Deck</p>
+
+                        <a href="cart.html" class="button">Add to cart</a>
                     </div>
-                </header>
-                <div class="card-image">
-                    <figure class="image is-4by3">
-                        <img src="@($"{item.Image}?r={item.Id}")" alt="@item.Name">
-                    </figure>
+                    <img src="@game.Image.SmallUrl" class="slide-image">
                 </div>
-                <div class="card-content">
-                    <div class="content">
-                        @item.Description
-                        <br />
-                        @item.Price
-                    </div>
+            </li>
+        }
+        @*<li data-bg-image="dummy/slide-2.jpg">
+            <div class="container">
+                <div class="slide-content">
+                    <h2 class="slide-title">Kill Zone 3</h2>
+                    <small class="slide-subtitle">$190.00</small>
+
+                    <p>Perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur.</p>
+
+                    <a href="cart.html" class="button">Add to cart</a>
                 </div>
-                <footer class="card-footer">
-                        @*<a href="#" class="card-footer-item">Save</a>
-                        <a href="#" class="card-footer-item">Edit</a>*@
-                        <a href="#" class="card-footer-item">Buy Now</a>
-                </footer>
+                <img src="dummy/game-cover-2.jpg" class="slide-image">
             </div>
-        </form>
-    }
-</div>
+        </li>
+        <li data-bg-image="dummy/slide-3.jpg">
+            <div class="container">
+                <div class="slide-content">
+                    <h2 class="slide-title">Kill Zone 3</h2>
+                    <small class="slide-subtitle">$190.00</small>
+
+                    <p>Perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur.</p>
+
+                    <a href="cart.html" class="button">Add to cart</a>
+                </div>
+                <img src="dummy/game-cover-3.jpg" class="slide-image">
+            </div>
+        </li>*@
+    </ul> <!-- .slides -->
+</div> <!-- .home-slider -->
+<main class="main-content">
+    <div class="container">
+        <div class="page">
+            <section>
+                <header>
+                    <h2 class="section-title">New Products</h2>
+                    <a href="#" class="all">Show All</a>
+                </header>
+                <div class="product-list">
+                    @foreach (var game in Model.NewGames)
+                    {
+                        <div class="product">
+                            <div class="inner-product">
+                                <div class="figure-image">
+                                    <a href="single.html"><img src="@game.Image.SmallUrl" alt="@game.Name"></a>
+                                </div>
+                                <h3 class="product-title"><a href="#">@game.Name</a></h3>
+                                <small class="price">£@game.Name.GenerateDecimal()</small>
+                                <p>@game.Deck</p>
+                                <a href="cart.html" class="button">Add to cart</a>
+                                <a href="#" class="button muted">Read Details</a>
+                            </div>
+                        </div>
+                        <!-- .product -->
+                    }
+                    
+                </div> <!-- .product-list -->
+            </section>
+            <section>
+                <header>
+                    <h2 class="section-title">promotion</h2>
+                    <a href="#" class="all">Show All</a>
+                </header>
+                <div class="product-list">
+                @foreach (var game in Model.Promotions)
+                {
+                    <div class="product">
+                        <div class="inner-product">
+                            <div class="figure-image">
+                                <a href="single.html"><img src="@game.Image.SmallUrl" alt="@game.Name"></a>
+                            </div>
+                            <h3 class="product-title"><a href="#">@game.Name</a></h3>
+                            <small class="price">£@game.Name.GenerateDecimal()</small>
+                            <p>@game.Deck</p>
+                            <a href="cart.html" class="button">Add to cart</a>
+                            <a href="#" class="button muted">Read Details</a>
+                        </div>
+                    </div>
+                    <!-- .product -->
+                }
+
+
+                </div> <!-- .product-list -->
+            </section>
+        </div>
+    </div> <!-- .container -->
+</main> <!-- .main-content -->
