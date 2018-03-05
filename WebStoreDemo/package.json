@@ -8,18 +8,17 @@
   },
   "author": "",
   "license": "ISC",
-  "dependencies": {
-    "ts-loader": "^4.0.0",
-    "typescript": "^2.7.2",
-    "webpack": "3.11.0"
-  },
+  "dependencies": {},
   "devDependencies": {
     "css-loader": "^0.28.10",
     "extract-text-webpack-plugin": "^3.0.2",
     "file-loader": "^1.1.11",
+    "html-webpack-plugin": "^3.0.4",
+    "html-webpack-polyfill-io-plugin": "^1.0.0",
     "node-sass": "^4.7.2",
-    "normalise.scss": "^1.0.1",
-    "sass-bootstrap-grid-only": "^1.0.3",
-    "sass-loader": "^6.0.7"
+    "sass-loader": "^6.0.7",
+    "ts-loader": "3.5.0",
+    "typescript": "^2.7.2",
+    "webpack": "3.11.0"
   }
 }

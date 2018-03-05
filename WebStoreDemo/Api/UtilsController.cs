@@ -11,7 +11,7 @@ using WebStoreDemo.Infrastucture.Repositories;
 
 namespace WebStoreDemo.Api
 {
-    [Produces("application/json")]
+    
     
     public class UtilsController : Controller
     {
@@ -27,6 +27,7 @@ namespace WebStoreDemo.Api
 
 
         [Route("api/utils/preload")]
+        [Produces("application/json")]
         public async Task<IActionResult> Preload()
         {
             await this.LoadPromotions();
@@ -34,6 +35,15 @@ namespace WebStoreDemo.Api
             await this.LoadHeadliners();
             return this.Ok();
         }
+
+        public async Task<IActionResult> PreloadAndGoBackToStart()
+        {
+            await this.LoadPromotions();
+            await this.LoadNew();
+            await this.LoadHeadliners();
+            return this.RedirectToAction("Index", "Home");
+        }
+
 
         
         public async Task<bool> LoadPromotions()

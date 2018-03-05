@@ -1,11 +1,10 @@
 ﻿var
     webpack = require('webpack'),
     path = require('path'),
-    ExtractTextPlugin = require("extract-text-webpack-plugin");
-    //CopyWebpackPlugin = require("copy-webpack-plugin"),
-    //CompressionPlugin = require("compression-webpack-plugin"),
-    //OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin'),
-    //CleanWebpackPlugin = require('clean-webpack-plugin');
+    ExtractTextPlugin = require("extract-text-webpack-plugin"),
+    HtmlWebpackPlugin = require("html-webpack-plugin"),
+    HtmlWebpackPolyfillIOPlugin = require('html-webpack-polyfill-io-plugin');
+    
 
 module.exports = {
     entry: {
@@ -13,7 +12,9 @@ module.exports = {
         //    './Resources/Scripts/app.ts'
         //],
         style: [
-            './Resources/Styles/style.scss'
+            './Resources/Styles/style.scss',
+            './Resources/Scripts/app.ts',
+            './Resources/Scripts/pages/basket.ts'
         ],
         //contact: [
         //    './Resources/Scripts/Pages/contact.ts'
@@ -21,8 +22,11 @@ module.exports = {
     },
     devtool: 'inline-source-map',
     output: {
+        filename: '[name].js',
         path: path.resolve(__dirname, 'wwwroot'),
-        filename: "[name].js"
+        publicPath: "/",
+        library: "webStoreDemo",
+        libraryTarget: "var"
     },
     resolve: {
         extensions: [".js", '.ts'],
@@ -56,27 +60,30 @@ module.exports = {
         ]
     },
     plugins: [
-        //new CleanWebpackPlugin(['wwwroot']),
-        new ExtractTextPlugin("[name].css",
-            {
-                allChunks: true
-            }),
-        //new OptimizeCssAssetsPlugin({
-        //    assetNameRegExp: /\.css$/g,
-        //    cssProcessorOptions: { discardComments: { removeAll: true } }
-        //  }),
-        //new CompressionPlugin({
-        //     //algorithm: gzipMaxCompression,
-        //     regExp: /\.(js|css)$/,
-        //     minRatio: 0
-        //   })
-        // ,
-        //new CopyWebpackPlugin([
-        //    {
-        //        from: './Resources/Images/logo-home.png', to: './images/logo-home.png'
-        //    }, {
-        //        from: './Resources/Images/logo-small.png', to: './images/logo-small.png'
-        //    }
-        //])
+        new ExtractTextPlugin('[name].css', { allChunks: true }),
+        new HtmlWebpackPlugin({
+            inject: 'body',
+            filename: '../Views/Shared/_Layout.cshtml',
+            template: './Views/Shared/_Layout_Template.cshtml',
+            hash: true,
+            files: {
+                css: ['styles.css'],
+                js: ['app.js']
+            },
+            chucks: {
+                head: {
+                    css: ['styles.css']
+                },
+                main: {
+                    js: ['app.js']
+                }
+            }
+        }),
+        new HtmlWebpackPolyfillIOPlugin({
+            minify: true,
+            features: [
+                'Element.prototype.closest'
+                ]
+        })
     ]
 };

@@ -1,0 +1,51 @@
+@using WebStoreDemo.Infrastucture.Extensions
+@model BasketViewModel;
+@{
+    ViewData["PageClass"] = "Basket";
+    decimal total = 0;
+}
+<main class="main-content">
+    <div class="container">
+        <div class="page">
+            
+            <table class="cart">
+                <thead>
+                    <tr>
+                        <th class="product-name">Product Name</th>
+                        <th class="product-price">Price</th>                        
+                        <th class="action"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach(var game in Model.Games)
+                    {
+                        var value = game.Name.GenerateDecimal();
+                        total += value;
+                        <tr>
+                            <td class="product-name">
+                                <div class="product-thumbnail">
+                                    <img src="@game.Image.ThumbUrl" alt="">
+                                </div>
+                                <div class="product-detail">
+                                    <h3 class="product-title">@game.Name</h3>
+                                    <p>@game.Deck</p>
+                                </div>
+                            </td>
+                            <td class="product-price">£@value</td>                        
+                            <td class="action"><a href="#"><i class="fa fa-times"></i></a></td>
+                        </tr>
+                    }
+                </tbody>
+            </table> <!-- .cart -->
+
+            <div class="cart-total">                
+                <p class="total"><strong>Total</strong><span class="num">£<span id="total-amount">@total</span></span></p>
+                <p>
+                    <a href="#" class="button muted">Continue Shopping</a>
+                    <button type="button" class="button" id="pay">Finalize and pay</button>
+                </p>
+            </div> <!-- .cart-total -->
+            
+        </div>
+    </div> <!-- .container -->
+</main> <!-- .main-content -->

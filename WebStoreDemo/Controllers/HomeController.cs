@@ -15,18 +15,13 @@ namespace WebStoreDemo.Controllers
         {
             this._memoryCache = memoryCache;
         }
-        //private readonly IItemRepository _itemRepository;
-        //private readonly IBasket _basket;
-
-        //public HomeController(IItemRepository itemRepository, IBasket basket)
-        //{
-        //    this._itemRepository = itemRepository ?? throw new ArgumentNullException(nameof(itemRepository));
-        //    this._basket = basket ?? throw new ArgumentNullException(nameof(basket));
-        //}
+        
         public IActionResult Index()
         {
             var promotions = new List<Game>();
             var promotionIds = this._memoryCache.Get<int[]>("promotions");
+            if (promotionIds == null)
+                return this.RedirectToAction("PreloadAndGoBackToStart", "Utils");
             foreach (var promotionId in promotionIds)
             {
                 promotions.Add(this._memoryCache.Get<Game>($"promotion-{promotionId}"));
@@ -55,6 +50,7 @@ namespace WebStoreDemo.Controllers
             };
             return this.View(viewModel);
         }
+        
 
         public IActionResult Products()
         {
@@ -63,33 +59,7 @@ namespace WebStoreDemo.Controllers
 
         public IActionResult Single()
         {
-
-        }
-
-        //public IActionResult AddToBasket(Guid id)
-        //{
-        //    this._basket.AddItemToBasket(id);
-        //    this._basket.Save();
-        //    return this.RedirectToAction("Basket");
-        //}
-
-        //public IActionResult RemoveFromBasket(Guid id)
-        //{
-        //    this._basket.RemoveItemFromBasket(id);
-        //    this._basket.Save();
-        //    return this.RedirectToAction("Basket");
-        //}
-
-        //public IActionResult Basket()
-        //{
-        //    var model = new BasketViewModel(this._basket.BasketItems);
-        //    return View(model);
-        //}
-
-
-        //public IActionResult Error()
-        //{
-        //    return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        //}
+            return this.View();
+        }        
     }
 }

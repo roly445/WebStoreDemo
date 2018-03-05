@@ -11,27 +11,47 @@ namespace WebStoreDemo.Infrastucture.Repositories
     public class GameRepository : IGameRepository
     {
         private readonly IGiantBombRestClient _giantBombRestClient;
+        private readonly ICacheDbRepository _cacheDbRepository;
 
-        public GameRepository(IGiantBombRestClientWrapper giantBombRestClient)
+        public GameRepository(IGiantBombRestClientWrapper giantBombRestClient, ICacheDbRepository cacheDbRepository)
         {
             this._giantBombRestClient = giantBombRestClient?.GetClient() ?? throw new ArgumentNullException(nameof(giantBombRestClient));
+            this._cacheDbRepository = cacheDbRepository ?? throw new ArgumentNullException(nameof(cacheDbRepository));
         }
 
         public async Task<IEnumerable<Game>> GetGames(int page)
         {
             var games = await this._giantBombRestClient.GetGamesAsync(page, 20);
+            foreach(var game in games)
+            {
+                if (!this._cacheDbRepository.IsItemInPartition(game.Id, "GameLookup"))
+                {
+                    this._cacheDbRepository.AddToCacheDb(game, "GameLookup");
+                }
+            }
             return games;
         }
 
         public async Task<IEnumerable<Game>> SearchGames(string term)
         {
             var games = await this._giantBombRestClient.SearchForAllGamesAsync(term);
+            foreach(var game in games)
+            {
+                if (!this._cacheDbRepository.IsItemInPartition(game.Id, "GameLookup"))
+                {
+                    this._cacheDbRepository.AddToCacheDb(game, "GameLookup");
+                }
+            }
             return games;
         }
 
         public async Task<Game> GetGame(int id)
         {
             var game = await this._giantBombRestClient.GetGameAsync(id);
+            if (!this._cacheDbRepository.IsItemInPartition(game.Id, "GameLookup"))
+                {
+                    this._cacheDbRepository.AddToCacheDb(game, "GameLookup");
+                }
             return game;
         }
 
@@ -43,26 +63,27 @@ namespace WebStoreDemo.Infrastucture.Repositories
 
         public async Task<IEnumerable<Game>> GetGamesForPlatform(int page, int platformId)
         {
-            //var g = this._giantBombRestClient.GetListResource("games",
-            //    page: page,
-            //    pageSize: 20,
-            //    filterOptions: new Dictionary<string, object>
-            //    {
-            //        // {"platforms", platformId },
-            //        { "sort", "original_release_date:desc" }
-            //    });
             var games = await this._giantBombRestClient.GetListResourceAsync<Game>("games", 
                 page: page,
                 pageSize: 20,
                 filterOptions: new Dictionary<string, object>
                 {
-                   {"platforms", platformId },
-                    { "original_release_date",$"1700-01-01|{DateTime.Now.AddDays(-1):yyyy-MM-dd}"}
-                    
+                    { "platforms", platformId },
+                    { "original_release_date", $"1700-01-01|{DateTime.Now.AddDays(-1):yyyy-MM-dd}"}                    
                 },
                 sortOptions: new Dictionary<string, SortDirection>
-                    { {"original_release_date",SortDirection.Descending } }
-                    );
+                {
+                    {"original_release_date",SortDirection.Descending } 
+                }
+            );
+            
+            foreach(var game in games)
+            {
+                if (!this._cacheDbRepository.IsItemInPartition(game.Id, "GameLookup"))
+                {
+                    this._cacheDbRepository.AddToCacheDb(game, "GameLookup");
+                }
+            }
             return games;
         }
     }

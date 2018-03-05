@@ -11,6 +11,7 @@ namespace WebStoreDemo.Infrastucture.Repositories
     {
         void AddToCacheDb<T>(T objToStore, string storagePartiton);
         IEnumerable<T> GetItemsInPartition<T>(string storagePartiton);
+        T GetItemInPartition<T>(string storagePartition, int id);
         bool IsItemInPartition(int id, string storagePartiton);
     }
 
@@ -22,6 +23,15 @@ namespace WebStoreDemo.Infrastucture.Repositories
             {
                 var collection = db.GetCollection<T>(storagePartiton);
                 collection.Insert(objToStore);
+            }
+        }
+
+        public T GetItemInPartition<T>(string storagePartition, int id)
+        {
+            using (var db = new LiteDatabase($"cacheDb.db"))
+            {
+                var collection = db.GetCollection<T>(storagePartition);
+                return collection.FindById(id);
             }
         }
 

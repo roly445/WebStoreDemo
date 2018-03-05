@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using GiantBomb.Api.Model;
 using WebStoreDemo.Infrastucture;
 
 namespace WebStoreDemo.Models
@@ -10,6 +11,6 @@ namespace WebStoreDemo.Models
         //    this.BasketItems = basketItems;
         //}
 
-        //public IReadOnlyList<BasketItem> BasketItems { get; }
+        public IReadOnlyList<Game> Games { get; set; }
     }
 }

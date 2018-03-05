@@ -12,6 +12,7 @@ using Newtonsoft.Json.Serialization;
 using WebStoreDemo.Api;
 using WebStoreDemo.Infrastucture;
 using WebStoreDemo.Infrastucture.Repositories;
+using WebStoreDemo.Infrastucture.Services;
 using WebStoreDemo.Infrastucture.Settings;
 using WebStoreDemo.Infrastucture.Wrappers;
 
@@ -37,7 +38,7 @@ namespace WebStoreDemo
             services.AddScoped<IGiantBombRestClient, GiantBombRestClient>();
             services.AddScoped<IGiantBombRestClientWrapper, GiantBombRestClientWrapper>();
             services.AddScoped<ICacheDbRepository, CacheDbRepository>();
-            //services.AddScoped<IBasket, Basket>();
+            services.AddScoped<IBasketService, BasketService>();
             services.AddSession();
             
         }
